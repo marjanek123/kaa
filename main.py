@@ -13,7 +13,7 @@ with Engine(virtual_resolution=Vector(settings.VIEWPORT_WIDTH, settings.VIEWPORT
     engine.window.fullscreen = True
     # initialize and run the scene
     gameplay_scene = GameplayScene()
-    engine.run(gameplay_scene)
+    
     # initialize scenes and keep them in the registry
     registry.scenes.gameplay_scene = GameplayScene()
     engine.run(registry.scenes.gameplay_scene)

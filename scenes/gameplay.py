@@ -16,6 +16,7 @@ class GameplayScene(Scene):
         self.space = SpaceNode()
         self.enemies_controller = EnemiesController(self)
         self.root.add_child(self.space)
+        self.space = SpaceNode(damping=0.3)
         self.collisions_controller = CollisionsController(self)
         self.player_controller = PlayerController(self)
         

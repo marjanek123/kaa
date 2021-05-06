@@ -12,7 +12,7 @@ class MachineGunBullet(BodyNode):
         super().__init__(sprite=registry.global_controllers.assets_controller.machine_gun_bullet_img,
                          z_index=30,
                          body_type=BodyNodeType.kinematic, # MG bullets are kinematic bodies
-                         lifetime=3000, # will be removed from the scene automatically after 3 secs
+                         lifetime=1, # will be removed from the scene automatically after 3 secs
                          *args, **kwargs)
         self.add_child(HitboxNode(shape=Polygon([Vector(-13, -4), Vector(13,-4), Vector(13,4), Vector(-13,4), Vector(-13,-4)]),
                                   mask=HitboxMask.bullet, # tell physics engine about object type

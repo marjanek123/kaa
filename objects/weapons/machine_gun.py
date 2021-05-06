@@ -20,4 +20,4 @@ class MachineGun(WeaponBase):
         self.cooldown_time_remaining =  self.get_cooldown_time()
 
     def get_cooldown_time(self):
-        return 100
+        return 1
