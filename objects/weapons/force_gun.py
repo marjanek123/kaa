@@ -15,6 +15,7 @@ class ForceGun(WeaponBase):
         bullet_velocity = Vector.from_angle_degrees(self.parent.rotation_degrees) * settings.FORCE_GUN_BULLET_SPEED
         self.scene.space.add_child(ForceGunBullet(position=bullet_position, velocity=bullet_velocity))
         # reset cooldown time
+        registry.global_controllers.assets_controller.force_gun_shot_sound.play()
         self.cooldown_time_remaining =  self.get_cooldown_time()
 
     def get_cooldown_time(self):

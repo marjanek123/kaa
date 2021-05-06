@@ -1,6 +1,10 @@
 import os
 from kaa.sprites import Sprite, split_spritesheet
 from kaa.geometry import Vector
+from kaa.audio import Sound, Music
+from kaa.fonts import Font
+
+
 
 class AssetsController:
 
@@ -35,3 +39,12 @@ class AssetsController:
             split_spritesheet(self.enemy_death_spritesheet.crop(Vector(0, i*74), Vector(103*9, 74)),
                               frame_dimensions=Vector(103, 74)) for i in range(0, 5)
         ]
+        self.mg_shot_sound = Sound(os.path.join('assets', 'sfx', 'mg-shot.wav'))
+        self.force_gun_shot_sound = Sound(os.path.join('assets', 'sfx', 'force-gun-shot.wav'))
+        self.grenade_launcher_shot_sound = Sound(os.path.join('assets', 'sfx', 'grenade-launcher-shot.wav'))
+        self.explosion_sound = Sound(os.path.join('assets', 'sfx', 'explosion.wav'))
+
+        # Load all music tracks
+        self.music_track_1 = Music(os.path.join('assets', 'music', 'track_1.wav'))
+        self.font_1 = Font(os.path.join('assets', 'fonts', 'paladise-script.ttf'))
+        self.font_2 = Font(os.path.join('assets', 'fonts', 'DejaVuSans.ttf'))

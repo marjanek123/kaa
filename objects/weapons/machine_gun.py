@@ -17,7 +17,8 @@ class MachineGun(WeaponBase):
         self.scene.space.add_child(MachineGunBullet(position=bullet_position, velocity=bullet_velocity,
                                                     rotation_degrees=self.parent.rotation_degrees))
         # reset cooldown time
+        registry.global_controllers.assets_controller.mg_shot_sound.play()
         self.cooldown_time_remaining =  self.get_cooldown_time()
 
     def get_cooldown_time(self):
-        return 1
+        return 0.2

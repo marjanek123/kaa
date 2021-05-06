@@ -4,16 +4,23 @@ import settings
 from scenes.gameplay import GameplayScene
 import registry
 from controllers.assets_controller import AssetsController
-
+from scenes.pause import PauseScene
+from scenes.title_screen import TitleScreenScene
 
 with Engine(virtual_resolution=Vector(settings.VIEWPORT_WIDTH, settings.VIEWPORT_HEIGHT)) as engine:
+    registry.global_controllers.assets_controller = AssetsController()
+    # play music
+    registry.global_controllers.assets_controller.music_track_1.play()
+    
     # initialize global controllers and keep them in the registry
     registry.global_controllers.assets_controller = AssetsController()
     # set window to fullscreen mode
     engine.window.fullscreen = True
     # initialize and run the scene
     gameplay_scene = GameplayScene()
-    
-    # initialize scenes and keep them in the registry
     registry.scenes.gameplay_scene = GameplayScene()
-    engine.run(registry.scenes.gameplay_scene)
+    registry.scenes.title_screen_scene = TitleScreenScene()
+    registry.scenes.pause_scene = PauseScene()
+    engine.run(registry.scenes.title_screen_scene)
+    # initialize scenes and keep them in the registry
+    

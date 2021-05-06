@@ -6,7 +6,8 @@ import settings
 from kaa.transitions import NodeSpriteTransition
 import random
 from common.enums import EnemyMovementMode
-
+from scenes.pause import PauseScene
+from scenes.title_screen import TitleScreenScene
 
 
 class Enemy(BodyNode):
@@ -18,7 +19,7 @@ class Enemy(BodyNode):
                          transition=NodeSpriteTransition(registry.global_controllers.assets_controller.enemy_frames,
                                                          duration=max(200, random.gauss(400,100)), loops=0),
                          *args, **kwargs)
-        self.stagger_time_left = 1
+        self.stagger_time_left = 0.01
         
         self.add_child(HitboxNode(
             shape=Polygon([Vector(-8, -19), Vector(8, -19), Vector(8, 19), Vector(-8, 19), Vector(-8, -19)]),
@@ -50,7 +51,7 @@ class Enemy(BodyNode):
         # stagger stops enemy from moving:
         self.velocity = Vector(0, 0)
         # track time for staying in the "staggered" state
-        self.stagger_time_left = 12
+        self.stagger_time_left = 0.15
 
     def recover_from_stagger(self):
         # start using the standard sprite animation again
@@ -58,6 +59,7 @@ class Enemy(BodyNode):
                                                         duration=max(200, random.gauss(400, 100)), loops=0)
 
         self.stagger_time_left = 0
+
     def randomize_new_waypoint(self):
         self.current_waypoint = Vector(random.randint(50, settings.VIEWPORT_WIDTH-50),
                                        random.randint(50, settings.VIEWPORT_HEIGHT-50))
