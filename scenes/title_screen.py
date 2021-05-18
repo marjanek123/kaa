@@ -6,6 +6,9 @@ from kaa.input import Keycode, MouseButton
 from kaa.nodes import Node
 from kaa.geometry import Vector, Alignment
 from kaa.fonts import TextNode
+from kaa.transitions import *
+from kaa.colors import Color
+import math
 
 
 class TitleScreenScene(Scene):
@@ -20,6 +23,11 @@ class TitleScreenScene(Scene):
         self.root.add_child(TextNode(font=registry.global_controllers.assets_controller.font_2, font_size=30,
                                      position=Vector(settings.VIEWPORT_WIDTH/2, 550), text="Press ESC to exit",
                                      z_index=1, origin_alignment=Alignment.center))
+        self.exit_label = TextNode(font=registry.global_controllers.assets_controller.font_2, font_size=30,
+                                     position=Vector(settings.VIEWPORT_WIDTH/2, 550), text="Press ESC to exit",
+                                     z_index=1, origin_alignment=Alignment.center)
+        self.root.add_child(self.exit_label)
+        self.transitions_fun_stuff()
 
     def update(self, dt):
 
@@ -40,6 +48,35 @@ class TitleScreenScene(Scene):
 
     def update(self, dt):
         for event in self.input.events():
+            if event.keyboard_key:
+                if event.keyboard_key.is_key_down and event.keyboard_key.key == Keycode.escape:
+                    self.engine.quit()
             # ... other code ...
             if event.mouse_button and event.mouse_button.is_button_down and event.mouse_button.button == MouseButton.left:
                 self.start_new_game()
+
+    def transitions_fun_stuff(self):
+        
+        rotate_transition = NodeRotationTransition(2*math.pi, duration=1) # rotate 180 degrees (2*pi radians)
+        scale_transition = NodeScaleTransition(Vector(2, 2), duration=1) # enlarge twice
+        color_transition = NodeColorTransition(Color(1, 0, 0, 1), duration=1) # change color to red
+
+        move_transition1 = NodePositionTransition(Vector(-200, 0), duration=1,
+                                        advance_method=AttributeTransitionMethod.add)
+        move_transition2 = NodePositionTransition(Vector(200, 200), duration=1,
+                                        advance_method=AttributeTransitionMethod.add)
+        move_transition3 = NodePositionTransition(Vector(200, -200), duration=1,
+                                        advance_method=AttributeTransitionMethod.add)
+        move_transition4 = NodePositionTransition(Vector(-200, 0), duration=1,
+                                        advance_method=AttributeTransitionMethod.add)
+
+        move_sequence = NodeTransitionsSequence([move_transition1, move_transition2, move_transition3, move_transition4], loops=0)
+        paralel_sequence = NodeTransitionsParallel([rotate_transition, scale_transition, color_transition], back_and_forth=True, loops=0)
+
+        # run both the movement sequence and rotate+scale+color sequence in paralel
+        self.exit_label.transition = NodeTransitionsParallel([
+            move_sequence, paralel_sequence])
+
+    def transition_callback_function(self, node):
+        # play explosion sound
+        registry.global_controllers.assets_controller.explosion_sound.play()

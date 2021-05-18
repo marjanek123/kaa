@@ -11,7 +11,7 @@ from controllers.collisions_controller import CollisionsController
 from kaa.geometry import Vector, Alignment
 from kaa.fonts import TextNode
 from kaa.colors import Color
-
+from map.genereate_map import BGMap
 
 class GameplayScene(Scene):
 
@@ -24,9 +24,7 @@ class GameplayScene(Scene):
         self.collisions_controller = CollisionsController(self)
         self.player_controller = PlayerController(self)
         
-        self.root.add_child(Node(sprite=registry.global_controllers.assets_controller.background_img,
-                                 position=Vector(settings.VIEWPORT_WIDTH/2, settings.VIEWPORT_HEIGHT/2),
-                                 z_index=0))
+        self.mapob=BGMap.openerbg(self)
 
         self.frag_count = 0
         self.root.add_child(TextNode(font=registry.global_controllers.assets_controller.font_1,

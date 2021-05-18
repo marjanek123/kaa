@@ -19,4 +19,4 @@ class ForceGun(WeaponBase):
         self.cooldown_time_remaining =  self.get_cooldown_time()
 
     def get_cooldown_time(self):
-        return 250
+        return 2.5

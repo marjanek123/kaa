@@ -39,7 +39,7 @@ class Player(BodyNode):
 
     def __init__(self, position, hp=100):
         # node's properties
-        super().__init__(body_type=BodyNodeType.dynamic, mass=1, z_index=10, sprite=registry.global_controllers.assets_controller.player_img, position=position)
+        super().__init__(body_type=BodyNodeType.dynamic , mass=1, z_index=10, sprite=registry.global_controllers.assets_controller.player_img, position=position)
         # custom properties
         self.hp = hp
         self.current_weapon = None
@@ -50,5 +50,6 @@ class Player(BodyNode):
             collision_mask=HitboxMask.enemy,
             trigger_id=settings.COLLISION_TRIGGER_PLAYER
         ))
+        self.acceleration_per_second = 300
         
         

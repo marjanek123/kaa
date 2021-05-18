@@ -6,8 +6,9 @@ import settings
 from kaa.transitions import NodeSpriteTransition
 import random
 from common.enums import EnemyMovementMode
+
 from scenes.pause import PauseScene
-from scenes.title_screen import TitleScreenScene
+
 
 
 class Enemy(BodyNode):

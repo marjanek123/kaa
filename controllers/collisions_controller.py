@@ -22,7 +22,7 @@ class CollisionsController:
 
         self.space.set_collision_handler(settings.COLLISION_TRIGGER_GRENADE_LAUNCHER_BULLET, settings.COLLISION_TRIGGER_ENEMY,
                                          self.on_collision_grenade_enemy)
-        
+
     def on_collision_mg_bullet_enemy(self, arbiter, mg_bullet_pair, enemy_pair):
         print("Detected a collision between MG bullet object {} hitbox {} and Enemy object {} hitbox {}".format(
             mg_bullet_pair.body, mg_bullet_pair.hitbox, enemy_pair.body, enemy_pair.hitbox))
@@ -70,6 +70,9 @@ class CollisionsController:
 
             grenade_pair.body.delete()  # remove the grenade from the scene
             return 0
+    def colision_go_point(self):
+        pass
+        
 
             
     
