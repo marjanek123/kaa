@@ -8,48 +8,28 @@ from objects.weapons.machine_gun import MachineGun
 
 import settings
 from kaa.physics import BodyNode, BodyNodeType, HitboxNode
-from kaa.geometry import Vector, Polygon
+from kaa.geometry import Vector, Circle
 from common.enums import WeaponType, HitboxMask
 
 class Player(BodyNode):
 
-    def change_weapon(self, new_weapon):
-        if self.current_weapon is not None:
-            self.current_weapon.delete()  # delete the weapon's node from the scene
-        if new_weapon == WeaponType.MachineGun:
-            weapon = MachineGun()  # position relative to the Player
-        elif new_weapon == WeaponType.GrenadeLauncher:
-            weapon = GrenadeLauncher()
-        elif new_weapon == WeaponType.ForceGun:
-            weapon = ForceGun()
-        else:
-            raise Exception('Unknown weapon type: {}'.format(new_weapon))
-        self.add_child(weapon)  # add the weapon node as player's child node (to make the weapon move and rotate together with the player)
-        self.current_weapon = weapon  # remember the current weapon
-
-    def cycle_weapons(self):
-        if self.current_weapon is None:
-            return
-        elif isinstance(self.current_weapon, MachineGun):
-            self.change_weapon(WeaponType.GrenadeLauncher)
-        elif isinstance(self.current_weapon, GrenadeLauncher):
-            self.change_weapon(WeaponType.ForceGun)
-        elif isinstance(self.current_weapon, ForceGun):
-            self.change_weapon(WeaponType.MachineGun)
-
-    def __init__(self, position, hp=100):
+    def __init__(self, position, hp=100, delta=None,go_point=None):
         # node's properties
         super().__init__(body_type=BodyNodeType.dynamic , mass=1, z_index=10, sprite=registry.global_controllers.assets_controller.player_img, position=position)
         # custom properties
         self.hp = hp
-        self.current_weapon = None
-        self.change_weapon(WeaponType.MachineGun)
         self.add_child(HitboxNode(
-            shape=Polygon([Vector(-10, -25), Vector(10, -25), Vector(10, 25), Vector(-10, 25), Vector(-10, -25)]),
+            shape=Circle(15),
             mask=HitboxMask.player,
-            collision_mask=HitboxMask.enemy,
+            collision_mask=HitboxMask.all,
             trigger_id=settings.COLLISION_TRIGGER_PLAYER
         ))
         self.acceleration_per_second = 300
+        self.delta=delta
+        self.go_point=go_point
+        self.mx=0
+        self.my=0
         
+        
+
         

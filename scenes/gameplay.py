@@ -12,19 +12,24 @@ from kaa.geometry import Vector, Alignment
 from kaa.fonts import TextNode
 from kaa.colors import Color
 from map.genereate_map import BGMap
+from map.genereate_objects import OBMap
+
+
 
 class GameplayScene(Scene):
 
     def __init__(self):
-        super().__init__()
+        
         self.space = SpaceNode(damping=0.1)
         self.enemies_controller = EnemiesController(self)
+
         self.root.add_child(self.space)
         
         self.collisions_controller = CollisionsController(self)
         self.player_controller = PlayerController(self)
         
-        self.mapob=BGMap.openerbg(self)
+        self.bgmap=BGMap(self)
+        self.obmap=OBMap(self)
 
         self.frag_count = 0
         self.root.add_child(TextNode(font=registry.global_controllers.assets_controller.font_1,
@@ -76,3 +81,5 @@ class GameplayScene(Scene):
         # function for tracking frag count
         self.frag_count += 1
         self.frag_count_label.text = f"Frag Count: {self.frag_count}"
+    
+    

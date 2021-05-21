@@ -1,4 +1,5 @@
 import os
+from typing import Sized
 from kaa.sprites import Sprite, split_spritesheet
 from kaa.geometry import Vector
 from kaa.audio import Sound, Music
@@ -29,6 +30,9 @@ class AssetsController:
         self.explosion_spritesheet = Sprite(os.path.join('assets', 'gfx', 'explosion.png'))
         # enemy-death.png has a few death animations, so make this a list
         self.enemy_death_spritesheet = Sprite(os.path.join('assets','gfx','enemy-death.png'))
+        
+        self.tree=Sprite(os.path.join("assets","obmap","tree.png"))
+        
 
         # use the spritesheets to create framesets
         self.enemy_frames = split_spritesheet(self.enemy_spritesheet, frame_dimensions=Vector(33, 74))
