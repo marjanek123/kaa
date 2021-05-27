@@ -4,13 +4,15 @@ from kaa.sprites import Sprite, split_spritesheet
 from kaa.geometry import Vector
 from kaa.audio import Sound, Music
 from kaa.fonts import Font
-
-
+from kaa.nodes import Node
+import numpy as np
+import settings
 
 class AssetsController:
 
     def __init__(self):
         # Load images:
+        self.mapk=np.zeros((settings.MAP_X,settings.MAP_Y), dtype=int)
         self.background_img = Sprite(os.path.join('assets', 'gfx', 'background.png'))
         self.title_screen_background_img = Sprite(os.path.join('assets', 'gfx', 'title-screen.png'))
         self.player_img = Sprite(os.path.join('assets', 'gfx', 'player.png'))
@@ -32,8 +34,8 @@ class AssetsController:
         self.enemy_death_spritesheet = Sprite(os.path.join('assets','gfx','enemy-death.png'))
         
         self.tree=Sprite(os.path.join("assets","obmap","tree.png"))
-        
-
+        self.long_swordsman=Sprite(os.path.join("assets","units","long_swordsman.png"))
+        self.fallen_tree=Sprite(os.path.join("assets","obmap","fallen_tree.png"))
         # use the spritesheets to create framesets
         self.enemy_frames = split_spritesheet(self.enemy_spritesheet, frame_dimensions=Vector(33, 74))
         self.blood_splatter_frames = split_spritesheet(self.blood_splatter_spritesheet, frame_dimensions=Vector(50, 50))
@@ -52,3 +54,9 @@ class AssetsController:
         self.music_track_1 = Music(os.path.join('assets', 'music', 'track_1.wav'))
         self.font_1 = Font(os.path.join('assets', 'fonts', 'paladise-script.ttf'))
         self.font_2 = Font(os.path.join('assets', 'fonts', 'DejaVuSans.ttf'))
+
+        self.hp_green_sp=Sprite(os.path.join("assets","gfx","hp_green.png"))
+        self.hp_red_sp=Sprite(os.path.join("assets","gfx","hp_red.png"))
+
+        self.hp_red=Node(sprite=self.hp_red_sp, z_index=1)
+

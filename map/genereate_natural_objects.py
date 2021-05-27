@@ -1,4 +1,4 @@
-import  registry 
+from registry import Registry
 import numpy as np
 import settings
 import json
@@ -8,22 +8,22 @@ from kaa.sprites import Sprite, split_spritesheet
 from kaa.geometry import Vector
 import random
 from kaa.physics import BodyNode, BodyNodeType, HitboxNode
-
-from objects.objects import Objects
+import registry
+from objects.natural_objects import NaturalObjects
 from kaa.geometry import Vector, Polygon
 
 
-class OBMap:
+class NaturalOBMap:
     def __init__(self,scene):
+
         self.objects=[]
         self.scene = scene
         self.createob()
 
-
     def createob(self):
-        def gett(self,obj,pos,player):
+        def gett(self,obj,pos):
             pos=pos
-            with open("maplypleyerobjects.json") as f:
+            with open("maplynaturalpos.json") as f:
                 data = json.load(f)
             for a in range(0, len(data)):
                 obj=data[a]["ob"]
@@ -33,10 +33,10 @@ class OBMap:
                 for a in range(0, len(cdata)):
                     if cdata[a]["ob"]==obj:
                         p=cdata[a]["terrain"]
-                        ob=Objects(size=24*cdata[a]["size"],player=player,sprite=Sprite(os.path.join("assets","obmap","{}".format(cdata[a]["img"]))),
+                        ob=NaturalObjects(size=24*cdata[a]["size"],player=0,food=cdata[a]["food"],wood=cdata[a]["wood"],gold=cdata[a]["gold"],stone=cdata[a]["stone"],sprite=Sprite(os.path.join("assets","obmap","{}".format(cdata[a]["img"]))),
                         position=Vector(settings.VIEWPORT_WIDTH/2-settings.MAP_X/2*48+pos[0]*48,
                         settings.VIEWPORT_HEIGHT/2-settings.MAP_Y/2*48+pos[1] * 48),
-                        shp=Polygon([Vector(-24 * cdata[a]["size"], -24*cdata[a]["size"]), Vector(24*cdata[a]["size"], -24*cdata[a]["size"]), Vector(24*cdata[a]["size"], 24*cdata[a]["size"]), Vector(-24*cdata[a]["size"], 24*cdata[a]["size"]), Vector(-24*cdata[a]["size"], -24*cdata[a]["size"])]))
+                        shp=Polygon([Vector(-24 * len(cdata[a]["terrain"][0])/2, -24*len(cdata[a]["terrain"][0])), Vector(24*len(cdata[a]["terrain"][0]), -24*len(cdata[a]["terrain"][0])), Vector(24*len(cdata[a]["terrain"][0]), 24*len(cdata[a]["terrain"][0])), Vector(-24*len(cdata[a]["terrain"][0]), 24*len(cdata[a]["terrain"][0])), Vector(-24*len(cdata[a]["terrain"][0]), -24*len(cdata[a]["terrain"][0]))]))
                         self.objects.append(ob)
                         self.scene.space.add_child(ob)  
                         get_to(p,pos)
@@ -80,13 +80,12 @@ class OBMap:
 
 
         def do_map():
-            with open("maplypleyerobjects.json") as f:
+            with open("maplynaturalpos.json") as f:
                     data = json.load(f)
             for a in range(0, len(data)):
                 t=data[a]["ob"]
                 p=data[a]["pos"]
-                player=data[a]["player"]
-                gett(self,t,p,player)        
+                gett(self,t,p)        
             
             return registry.global_controllers.assets_controller.mapk
         do_map()

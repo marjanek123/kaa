@@ -3,6 +3,7 @@
         "ob":"lake",
         "img":"lake.PNG",
         "terrain":[[1,1,1],[1,1,1],[0,0,0]],
+        "size":1,
         "index_z":2
 
     },
@@ -10,6 +11,7 @@
         "ob": "wiotrok",
         "img":"wiotrok.png",
         "terrain":[[2,0,0],[0,0,0],[0,0,0]],
+        "size":1,
         "index_z":6
 
     },
@@ -17,6 +19,7 @@
         "ob":"cave",
         "img":"cave.png",
         "terrain":[[1,1,1],[1,5,1],[0,0,0]],
+        "size":1,
         "index_z":4
 
     },
@@ -24,12 +27,14 @@
         "ob": "pir",
         "img":"pir.png",
         "terrain":[[1,1,0],[1,4,0],[0,0,0]],
+        "size":1,
         "index_z":9
     },
     {
         "ob": "crack",
         "img":"crack.png",
         "terrain":[[1,1,0],[1,1,1],[0,1,1]],
+        "size":1,
         "index_z":1
 
     },
@@ -37,14 +42,31 @@
         "ob": "tree",
         "img":"tree.png",
         "terrain":[[1]],
-        "index_z":1
+        "size":1,
+        "index_z":1,
+        "food":0,
+        "wood":100,
+        "gold":0,
+        "stone":0
 
     },
     {
         "ob": "barack",
         "img":"barack.png",
         "terrain":[[4,4,4,4],[4,4,4,4],[4,4,4,4]],
+        "size":3,
         "index_z":1
 
+    },
+    {
+        "ob": "gold",
+        "img":"gold.png",
+        "terrain":[[1]],
+        "size":1,
+        "index_z":1,
+        "food":0,
+        "wood":0,
+        "gold":800,
+        "stone":0
     }
 ]

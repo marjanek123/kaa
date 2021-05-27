@@ -1,6 +1,6 @@
 from map.genereate_objects import OBMap
 import settings
-from objects.vilager import Vilager
+from objects.player import Vilager
 from objects.long_swordsman import Longswordsman
 from kaa.geometry import Vector
 from kaa.input import Keycode
@@ -39,13 +39,12 @@ class PlayerController:
         self.my=0
         self.add_ob(self.natural_obmap.objects)
         self.add_ob(self.units)
-        self.add_ob(self.ob.objects)
         
         # self.scene.root.add_child(self.player)
         
         
         # self.scene.space.add_child(self.player)
-        # self.add_unit(Longswordsman(position=Vector(50, 400),player=1))
+        self.add_unit(Longswordsman(position=Vector(50, 400),player=1))
         self.add_unit(Vilager(position=Vector(100, 400),player=1))
         self.add_unit(Vilager(position=Vector(1075, 220),player=1))
         self.add_unit(Vilager(position=Vector(1345, 240),player=1))
@@ -106,17 +105,8 @@ class PlayerController:
         
         if self.scene.input.mouse.is_pressed(MouseButton.right):
             for count,playe in enumerate(self.basket):
-                for a in self.all_objects:
-                    op=self.scene.input.mouse.get_position()-a.position
-                    op_x=abs(op.x)
-                    op_y=abs(op.y)
-                    if op_x<=a.size and op_y <=a.size:
-                        if a.player==0:
-                            if a.wood>0:
-                                
-                                playe.choop_tree(a)
-                        # a.sprite=registry.global_controllers.assets_controller.fallen_tree
-                # playe.go_point=self.scene.input.mouse.get_position() + basket_pozysion[count]
+                
+                playe.go_point=self.scene.input.mouse.get_position() + basket_pozysion[count]
                 # print(playe.go_point)
         
 
@@ -133,14 +123,10 @@ class PlayerController:
                 playe.rotation_degrees = (playe.go_point - player_pos).to_angle_degrees()
                 playe.velocity += Vector.from_angle_degrees(playe.rotation_degrees)*\
                                     (playe.acceleration_per_second)
-            
-            if playe.delta !=None :
-                if playe.delta<=30:
-                    playe.work
+            if playe.delta :
                 if playe.delta<=4:
                     playe.go_point=None
                     playe.delta=None
-                
         
         
         ####kontroler chodzenia############kontroler chodzenia########  

@@ -9,7 +9,7 @@ from kaa.geometry import Vector
 import math
 class BGMap:
     def __init__(self,scene):
-        self.scene=scene
+        self.scene = scene
         self.openerbg()
         
 

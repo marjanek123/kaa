@@ -1,0 +1,12 @@
+[
+    {
+        "ob":"barack",
+        "pos":[4,1],
+        "player":1
+    },
+    {
+        "ob": "barack",
+        "pos":[6,12],
+        "player":1
+    }
+]

@@ -1,22 +1,21 @@
 from kaa.nodes import Node
 import registry
 from kaa.geometry import Vector
-from common.enums import WeaponType
-from objects.weapons.force_gun import ForceGun
-from objects.weapons.grenade_launcher import GrenadeLauncher
-from objects.weapons.machine_gun import MachineGun
 
 import settings
 from kaa.physics import BodyNode, BodyNodeType, HitboxNode
 from kaa.geometry import Vector, Circle
-from common.enums import WeaponType, HitboxMask
+from common.enums import  HitboxMask
 
-class Player(BodyNode):
+class Longswordsman(BodyNode):
 
-    def __init__(self, position, hp=100, delta=None,go_point=None):
+    def __init__(self, position, player, hp=60, delta=None,go_point=None, damage=7):
         # node's properties
-        super().__init__(body_type=BodyNodeType.dynamic , mass=1, z_index=10, sprite=registry.global_controllers.assets_controller.player_img, position=position)
+        super().__init__(body_type=BodyNodeType.dynamic , mass=1, z_index=10, sprite=registry.global_controllers.assets_controller.long_swordsman, position=position)
         # custom properties
+        self.player=player
+        self.damage=damage
+        self.size=10
         self.hp = hp
         self.add_child(HitboxNode(
             shape=Circle(15),
@@ -29,7 +28,6 @@ class Player(BodyNode):
         self.go_point=go_point
         self.mx=0
         self.my=0
-        
-        
-
-        
+        self.is_atacking=True
+        self.buldier=False
+        self.path=[]
