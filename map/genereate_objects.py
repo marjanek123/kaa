@@ -17,7 +17,7 @@ from objects.units.vilager import Vilager
 class OBMap:
     def __init__(self,scene):
         self.initedObjects=[]
-        self.initedObjects.append(Vilager)
+        self.initedObjects.append(Barack)
 
 
         self.objects=[]
@@ -37,7 +37,7 @@ class OBMap:
                 cdata = json.load(fr)
             for a in range(0, len(cdata)):
                 for object in self.initedObjects:
-                    if Vilager.name==cdata[a]["ob"]:
+                    if Barack.name==cdata[a]["ob"]:
                         object.position=Vector(settings.VIEWPORT_WIDTH/2-settings.MAP_X/2*48+pos[0]*48)
                         object.player=data[count1]["player"]
                         self.objects.append(object)
