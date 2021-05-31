@@ -53,9 +53,10 @@
     {
         "ob": "barack",
         "img":"barack.png",
-        "terrain":[[4,4,4,4],[4,4,4,4],[4,4,4,4]],
+        "terrain":[[4,4,4],[4,4,4],[4,4,4]],
         "size":3,
-        "index_z":1
+        "index_z":1,
+        "pop":1
 
     },
     {
@@ -68,5 +69,14 @@
         "wood":0,
         "gold":800,
         "stone":0
+    },
+    {
+        "ob": "home",
+        "img":"home.png",
+        "terrain":[[4]],
+        "size":1,
+        "index_z":1,
+        "pop":5
+
     }
 ]

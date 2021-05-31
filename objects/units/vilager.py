@@ -31,7 +31,7 @@ class Vilager(BodyNode):
             collision_mask=HitboxMask.all,
             trigger_id=settings.COLLISION_TRIGGER_PLAYER
         ))
-        self.acceleration_per_second = 300
+        self.acceleration_per_second = 150
         self.delta=delta
         self.go_point=go_point
         self.mx=0
@@ -39,18 +39,19 @@ class Vilager(BodyNode):
         self.is_atacking=False
         self.buldier=True
         self.work=None
+        self.name="Barack"
+
+
 
     def choop_tree(self,a):
-        
-        
+
         self.go_point=a.position
         self.delta=(self.position-a.position).length()
-        if self.delta<float(a.size+20):
-            a.sprite=registry.global_controllers.assets_controller.fallen_tree
+        self.work=a
         
 
     def choop_gold(self):
-        pass
+        print("chpoikon")
         
         
         

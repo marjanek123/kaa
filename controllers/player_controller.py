@@ -1,11 +1,12 @@
 from map.genereate_objects import OBMap
 import settings
-from objects.vilager import Vilager
-from objects.long_swordsman import Longswordsman
+from objects.units.vilager import Vilager
+from objects.units.long_swordsman import Longswordsman
 from kaa.geometry import Vector
 from kaa.input import Keycode
 import registry
 import random
+from kaa.fonts import TextNode
 from objects.enemy import Enemy
 from kaa.input import Keycode, MouseButton
 from kaa.geometry import Vector
@@ -16,7 +17,9 @@ from kaa.transitions import NodeScaleTransition
 from map.genereate_map import BGMap
 from map.genereate_natural_objects import NaturalOBMap
 from map.genereate_objects import OBMap
-
+from kaa.fonts import TextNode
+from kaa.colors import Color
+from kaa.geometry import Vector, Alignment
 
 
 # Player(position=Vector(settings.VIEWPORT_WIDTH/2, settings.VIEWPORT_HEIGHT/2))
@@ -40,7 +43,32 @@ class PlayerController:
         self.add_ob(self.natural_obmap.objects)
         self.add_ob(self.units)
         self.add_ob(self.ob.objects)
-        
+        self.collected_wood=0
+        self.collected_food=0
+        self.collected_gold=0
+        self.collected_stone=0
+        self.player_population=self.poulation_avilable()
+        self.population_current=len(self.units)
+
+        # self.wood_cumulation=TextNode(font=registry.global_controllers.assets_controller.font_1,
+        #                      origin_alignment=Alignment.left,color=Color(1, 0, 0, 1), position=Vector(10, 20), font_size=30, z_index=1,
+        #                      text=f"Collected Wood: {self.collected_wood}")
+        # self.food_cumulation=TextNode(font=registry.global_controllers.assets_controller.font_1,
+        #                      origin_alignment=Alignment.left,color=Color(0, 1, 0, 1), position=Vector(200, 20), font_size=30, z_index=1,
+        #                      text=f"Collected Food: {self.collected_food}")
+        # self.gold_cumulation=TextNode(font=registry.global_controllers.assets_controller.font_1,
+        #                      origin_alignment=Alignment.left,color=Color(1, 1, 0, 1), position=Vector(400, 20), font_size=30, z_index=1,
+        #                      text=f"Collected Gold: {self.collected_gold}")
+        # self.stone_cumulation=TextNode(font=registry.global_controllers.assets_controller.font_1,
+        #                      origin_alignment=Alignment.left,color=Color(1, 1, 0, 1), position=Vector(600, 20), font_size=30, z_index=1,
+        #                      text=f"Collected Stone: {self.collected_stone}")
+        # self.population_space=TextNode(font=registry.global_controllers.assets_controller.font_1,
+        #                      origin_alignment=Alignment.left,color=Color(1, 1, 0, 1), position=Vector(800, 20), font_size=30, z_index=1,
+        #                      text="Population: {}/{}".format(self.population_current,self.player_population))
+        # self.scene.space.add_child(self.wood_cumulation)
+        # self.scene.space.add_child(self.food_cumulation)
+        # self.scene.space.add_child(self.gold_cumulation)
+        # self.scene.space.add_child(self.stone_cumulation)
         # self.scene.root.add_child(self.player)
         
         
@@ -51,6 +79,8 @@ class PlayerController:
         self.add_unit(Vilager(position=Vector(1345, 240),player=1))
         self.add_unit(Vilager(position=Vector(1011, 780),player=1))
 
+        
+
     def add_unit(self, unit):
         self.units.append(unit)  # add to the internal list
         self.scene.space.add_child(unit)
@@ -58,6 +88,12 @@ class PlayerController:
         for a in list:
             self.all_objects.append(a)
 
+    def poulation_avilable(self):
+        pop=0
+        for object in self.all_objects:
+            if object.player==self.controler_by:
+                pop+=object.population_add
+        return pop
     def update(self, dt):
         ##### Tutorial 5####
  # reset velocity to zero, if no keys are pressed the player will stop
@@ -65,7 +101,7 @@ class PlayerController:
         self.player.velocity=Vector(0,0) 
         basket_pozysion=[Vector(0,0), Vector(45,45),Vector(-45,-45),Vector(90,90)]
         
-
+        print(registry.global_controllers.assets_controller.mapk)
 
         # if self.scene.input.keyboard.is_pressed(Keycode.w):
         #     self.player.velocity += Vector(0, -settings.PLAYER_SPEED)
@@ -84,7 +120,8 @@ class PlayerController:
             m=self.scene.input.mouse.get_position()
             self.mx=m.x
             self.my=m.y
-            
+        
+        print(self.collected_wood)
         if self.presed==True and self.scene.input.mouse.is_released(MouseButton.left):
             self.presed=False
             m1=self.scene.input.mouse.get_position()
@@ -105,16 +142,17 @@ class PlayerController:
 
         
         if self.scene.input.mouse.is_pressed(MouseButton.right):
-            for count,playe in enumerate(self.basket):
-                for a in self.all_objects:
-                    op=self.scene.input.mouse.get_position()-a.position
-                    op_x=abs(op.x)
-                    op_y=abs(op.y)
-                    if op_x<=a.size and op_y <=a.size:
-                        if a.player==0:
-                            if a.wood>0:
-                                
-                                playe.choop_tree(a)
+            for count, playe in enumerate(self.basket):
+                for object in self.all_objects:
+                    object_pozysion=self.scene.input.mouse.get_position()-object.position
+                    object_pozysion_x=abs(object_pozysion.x)
+                    object_pozysion_y=abs(object_pozysion.y)
+                    if object_pozysion_x<=object.size and object_pozysion_y <=object.size:
+                        if object.player==0:
+                            if object.wood>0:
+                                playe.work=playe.choop_tree(object)
+                                playe.choop_tree(object)
+                                self.collected_wood+=1
                         # a.sprite=registry.global_controllers.assets_controller.fallen_tree
                 # playe.go_point=self.scene.input.mouse.get_position() + basket_pozysion[count]
                 # print(playe.go_point)
@@ -125,8 +163,12 @@ class PlayerController:
         for playe in self.units:
             player_pos = playe.position
             playe.velocity=Vector(0,0) 
-
-
+            if playe.work != None:
+                if playe.delta<=50:
+                    playe.delta=None
+                    playe.go_point=None
+                    playe.work.sprite=registry.global_controllers.assets_controller.fallen_tree
+                    playe.work=None
             if playe.go_point!=None:
                 playe.delta=(player_pos-playe.go_point).length()
                 # print(playe.delta)
@@ -135,8 +177,6 @@ class PlayerController:
                                     (playe.acceleration_per_second)
             
             if playe.delta !=None :
-                if playe.delta<=30:
-                    playe.work
                 if playe.delta<=4:
                     playe.go_point=None
                     playe.delta=None
